@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Результат — {{ test.title }}</title></head>
+<body>
+  <a href="{% url 'tests:detail' slug=test.slug %}">← пройти ещё раз</a>
+  <h1>Результат: {{ test.title }}</h1>
+
+  <p><b>Баллы:</b> {{ submission.total_score }}</p>
+
+  <h2>Твои ответы</h2>
+  <ol>
+    {% for a in answers %}
+      <li>
+        <div><b>{{ a.question.text }}</b></div>
+        <div>Ответ: {{ a.option.text }} ({{ a.option.score }} балл/ов)</div>
+      </li>
+    {% empty %}
+      <li>Ответов нет</li>
+    {% endfor %}
+  </ol>
+</body>
+</html>

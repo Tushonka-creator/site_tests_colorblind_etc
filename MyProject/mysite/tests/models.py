@@ -24,33 +24,28 @@ class Test(models.Model):
 
 
 class Question(models.Model):
-    """
-    Вопрос внутри теста.
-    """
-    test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name="questions")
+    test = models.ForeignKey("Test", on_delete=models.CASCADE, related_name="questions")
     text = models.TextField()
-    order = models.PositiveIntegerField(default=0)
+    order = models.PositiveIntegerField()
     is_required = models.BooleanField(default=True)
 
     class Meta:
-        ordering = ["order", "id"]
+        ordering = ["order"]
+        unique_together = ("test", "order")
 
     def __str__(self):
         return f"{self.test.title} — Q{self.order + 1}"
 
 
 class AnswerOption(models.Model):
-    """
-    Вариант ответа на вопрос.
-    score — сколько баллов даёт выбор (можно 0/1/2/… или отрицательные).
-    """
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="options")
-    text = models.CharField(max_length=300)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    text = models.CharField(max_length=255)
     score = models.IntegerField(default=0)
-    order = models.PositiveIntegerField(default=0)
+    order = models.PositiveIntegerField()
 
     class Meta:
-        ordering = ["order", "id"]
+        ordering = ["order"]
+        unique_together = ("question", "order")
 
     def __str__(self):
         return f"Option({self.question.id}): {self.text[:40]}"
@@ -101,3 +96,5 @@ class ResultRange(models.Model):
 
     def __str__(self):
         return f"{self.test.title}: {self.min_score}-{self.max_score} — {self.title}"
+
+

@@ -15,3 +15,15 @@
   </ul>
 </body>
 </html>
+{% if request.user.is_authenticated %}
+  <ul>
+    {% for t in tests %}
+      <li>
+        <a href="{% url 'tests:detail' slug=t.slug %}">{{ t.title }}</a>
+        {% if t.description %}<div>{{ t.description }}</div>{% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Нужно войти, чтобы видеть тесты</p>
+{% endif %}

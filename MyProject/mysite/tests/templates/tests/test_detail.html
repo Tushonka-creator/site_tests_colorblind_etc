@@ -38,3 +38,12 @@
   </form>
 </body>
 </html>
+{% if request.user.is_authenticated %}
+  <form method="post">
+    {% csrf_token %}
+    ...
+    <button type="submit">Показать результат</button>
+  </form>
+{% else %}
+  <p>Войдите, чтобы пройти тест</p>
+{% endif %}

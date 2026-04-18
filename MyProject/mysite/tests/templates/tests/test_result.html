@@ -20,3 +20,11 @@
   </ol>
 </body>
 </html>
+{% if request.user.is_authenticated %}
+  <p><b>Баллы:</b> {{ submission.total_score }}</p>
+
+  <h2>Твои ответы</h2>
+  ...
+{% else %}
+  <p>Нет доступа</p>
+{% endif %}
